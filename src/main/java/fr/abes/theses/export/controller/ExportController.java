@@ -39,4 +39,26 @@ public class ExportController {
     public ResponseEntity exportRDF(@PathVariable @Parameter(name = "nnt", description = "Numéro National de Thèse", example = "2013MON30092") String nnt) {
         return new ResponseEntity<>(xslTransfo.transformXsl(dbRequest.findTefByNntOrNumsujet(nnt), "tef2rdf.xsl"), HttpStatus.OK);
     }
+
+    @Operation(
+            summary = "Retourne les métadonnées de la thèse sous format RDF.",
+            description = "Retourne les métadonnées de la thèse sous format RDF.")
+    @ApiResponse(responseCode = "400", description = "Le format du numéro national de thèse fourni est incorrect")
+    @ApiResponse(responseCode = "200", description = "Opération terminée avec succès")
+    @ApiResponse(responseCode = "500", description = "DbRequest indisponible")
+    @GetMapping(value = "export/xml/{nnt}", produces = "application/xml")
+    public ResponseEntity exportXML(@PathVariable @Parameter(name = "nnt", description = "Numéro National de Thèse", example = "2013MON30092") String nnt) {
+        return new ResponseEntity<>(xslTransfo.transformXsl(dbRequest.findTefByNntOrNumsujet(nnt), "tef2rdf.xsl"), HttpStatus.OK);
+    }
+
+    @Operation(
+            summary = "Retourne les métadonnées de la thèse sous format tefudoc.",
+            description = "Retourne les métadonnées de la thèse sous format tefudoc.")
+    @ApiResponse(responseCode = "400", description = "Le format du numéro national de thèse fourni est incorrect")
+    @ApiResponse(responseCode = "200", description = "Opération terminée avec succès")
+    @ApiResponse(responseCode = "500", description = "DbRequest indisponible")
+    @GetMapping(value = "export/tefudoc/{nnt}", produces = "application/xml")
+    public ResponseEntity exportTefudoc(@PathVariable @Parameter(name = "nnt", description = "Numéro National de Thèse", example = "2013MON30092") String nnt) {
+        return new ResponseEntity<>(xslTransfo.transformXsl(dbRequest.findTefByNntOrNumsujet(nnt), "tef2tefSansGestion.xsl"), HttpStatus.OK);
+    }
 }
