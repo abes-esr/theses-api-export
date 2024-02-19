@@ -1,6 +1,6 @@
 ###
 # Image pour la compilation
-FROM maven:3-eclipse-temurin-11 as build-image
+FROM maven:3-eclipse-temurin-17 as build-image
 WORKDIR /build/
 # Installation et configuration de la locale FR
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install locales
@@ -28,7 +28,7 @@ RUN mvn --batch-mode -e \
 ###
 # Image pour le module theses-export
 
-FROM eclipse-temurin:11-jre as api-export-image
+FROM eclipse-temurin:17-jre as api-export-image
 WORKDIR /app/
 COPY --from=build-image /build/target/*.jar /app/theses-api-export.jar
 ENTRYPOINT exec java $JAVA_OPTS -jar /app/theses-api-export.jar
