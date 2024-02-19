@@ -10,7 +10,6 @@ public class DbRequest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     public String findTefByNntOrNumsujet (String nntOrNumsujet) {
 
         String sql = "select d.doc from PORTAIL.document d where d.nnt=? or d.numsujet=?";

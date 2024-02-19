@@ -2,6 +2,7 @@ package fr.abes.theses.export.controller;
 
 
 import fr.abes.theses.export.service.DbRequest;
+import fr.abes.theses.export.service.XslTransfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,6 +26,9 @@ public class ExportController {
     @Autowired
     DbRequest dbRequest;
 
+    @Autowired
+    XslTransfo xslTransfo;
+
     @Operation(
             summary = "Retourne les métadonnées de la thèse sous format RDF.",
             description = "Retourne les métadonnées de la thèse sous format RDF.")
@@ -33,8 +37,6 @@ public class ExportController {
     @ApiResponse(responseCode = "500", description = "DbRequest indisponible")
     @GetMapping(value = "export/rdf/{nnt}", produces = "application/xml")
     public ResponseEntity exportRDF(@PathVariable @Parameter(name = "nnt", description = "Numéro National de Thèse", example = "2013MON30092") String nnt) {
-
-        return new ResponseEntity<>(dbRequest.findTefByNntOrNumsujet(nnt), HttpStatus.OK);
-
+        return new ResponseEntity<>(xslTransfo.transformXsl(dbRequest.findTefByNntOrNumsujet(nnt), "tef2rdf.xsl"), HttpStatus.OK);
     }
 }

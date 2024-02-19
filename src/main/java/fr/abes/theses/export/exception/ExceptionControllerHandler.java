@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.xml.transform.TransformerException;
+import java.io.FileNotFoundException;
+
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
@@ -41,4 +44,17 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(new ApiReturnError(HttpStatus.BAD_REQUEST, error, ex));
     }
 
+    @ExceptionHandler(FileNotFoundException.class)
+    protected ResponseEntity<Object> handleFileNotFoundException(FileNotFoundException ex) {
+        String error = "FileNotFoundException...";
+        log.debug(error + " " + ex.getLocalizedMessage());
+        return buildResponseEntity(new ApiReturnError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
+    }
+
+    @ExceptionHandler(TransformerException.class)
+    protected ResponseEntity<Object> handleTransformerException(TransformerException ex) {
+        String error = "TransformerException...";
+        log.debug(error + " " + ex.getLocalizedMessage());
+        return buildResponseEntity(new ApiReturnError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
+    }
 }
