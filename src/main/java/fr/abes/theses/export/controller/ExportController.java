@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/theses/")
+@RequestMapping("/")
 public class ExportController {
 
     @Autowired
