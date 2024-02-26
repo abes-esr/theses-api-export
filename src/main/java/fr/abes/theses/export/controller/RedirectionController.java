@@ -19,21 +19,33 @@ public class RedirectionController {
     @Value("${racine}")
     String racine;
 
-    @GetMapping(value = "{nnt}.xml")
-    public ResponseEntity<Void> redirectXML(@PathVariable String nnt){
+    @GetMapping(value = "{nntOuNumsujet}.xml")
+    public ResponseEntity<Void> redirectXML(@PathVariable String nntOuNumsujet){
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/xml/" + nnt)).build();
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/xml/" + nntOuNumsujet)).build();
     }
 
-    @GetMapping(value = "{nnt}.rdf")
-    public ResponseEntity<Void> redirectRDF(@PathVariable String nnt){
+    @GetMapping(value = "{nntOuNumsujet}.rdf")
+    public ResponseEntity<Void> redirectRDF(@PathVariable String nntOuNumsujet){
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/rdf/" + nnt)).build();
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/rdf/" + nntOuNumsujet)).build();
     }
 
-    @GetMapping(value = "{nnt}.tefudoc")
-    public ResponseEntity<Void> redirectTefudoc(@PathVariable String nnt){
+    @GetMapping(value = "{nntOuNumsujet}.tefudoc")
+    public ResponseEntity<Void> redirectTefudoc(@PathVariable String nntOuNumsujet){
 
-        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/tefudoc/" + nnt)).build();
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/tefudoc/" + nntOuNumsujet)).build();
+    }
+
+    @GetMapping(value = "{nntOuNumsujet}.ris")
+    public ResponseEntity<Void> redirectRis(@PathVariable String nntOuNumsujet){
+
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/ris/" + nntOuNumsujet)).build();
+    }
+
+    @GetMapping(value = "{nntOuNumsujet}.bib")
+    public ResponseEntity<Void> redirectBib(@PathVariable String nntOuNumsujet){
+
+        return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).location(URI.create(racine + "/api/v1/theses/export/bib/" + nntOuNumsujet)).build();
     }
 }
