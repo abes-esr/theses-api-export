@@ -1,6 +1,7 @@
 package fr.abes.theses.export.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.jdom.JDOMException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.xml.transform.TransformerException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -54,6 +56,20 @@ public class ExceptionControllerHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(TransformerException.class)
     protected ResponseEntity<Object> handleTransformerException(TransformerException ex) {
         String error = "TransformerException...";
+        log.debug(error + " " + ex.getLocalizedMessage());
+        return buildResponseEntity(new ApiReturnError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
+    }
+
+    @ExceptionHandler(JDOMException.class)
+    protected ResponseEntity<Object> handleJDOMException(JDOMException ex) {
+        String error = "JDOMException (bibtex, ris)...";
+        log.debug(error + " " + ex.getLocalizedMessage());
+        return buildResponseEntity(new ApiReturnError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
+    }
+
+    @ExceptionHandler(IOException.class)
+    protected ResponseEntity<Object> handleIOException(IOException ex) {
+        String error = "IOException (bibtex, ris)...";
         log.debug(error + " " + ex.getLocalizedMessage());
         return buildResponseEntity(new ApiReturnError(HttpStatus.INTERNAL_SERVER_ERROR, error, ex));
     }
