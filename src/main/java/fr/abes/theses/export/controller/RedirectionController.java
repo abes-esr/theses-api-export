@@ -13,7 +13,7 @@ import java.net.URI;
 
 @Slf4j
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/v1/export/")
 public class RedirectionController {
 
     @Value("${racine}")
