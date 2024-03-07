@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api/v1/export/")
 public class ExportController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class ExportController {
     @ApiResponse(responseCode = "400", description = "Le format du numéro national de thèse fourni est incorrect")
     @ApiResponse(responseCode = "200", description = "Opération terminée avec succès")
     @ApiResponse(responseCode = "500", description = "Service indisponible")
-    @GetMapping(value = "export/rdf/{nntOuNumsujet}", produces = "application/xml")
+    @GetMapping(value = "rdf/{nntOuNumsujet}", produces = "application/xml")
     public ResponseEntity exportRDF(@PathVariable @Parameter(name = "nntOuNumsujet", description = "Numéro National de Thèse ou numéro de sujet", example = "2013MON30092") String nntOuNumsujet) {
         return new ResponseEntity<>(xslTransfo.transformXsl(dbRequest.findTefByNntOrNumsujet(nntOuNumsujet), "tef2rdf.xsl"), HttpStatus.OK);
     }
@@ -49,7 +49,7 @@ public class ExportController {
     @ApiResponse(responseCode = "400", description = "Le format du numéro national de thèse fourni est incorrect")
     @ApiResponse(responseCode = "200", description = "Opération terminée avec succès")
     @ApiResponse(responseCode = "500", description = "Service indisponible")
-    @GetMapping(value = "export/xml/{nntOuNumsujet}", produces = "application/xml")
+    @GetMapping(value = "xml/{nntOuNumsujet}", produces = "application/xml")
     public ResponseEntity exportXML(@PathVariable @Parameter(name = "nntOuNumsujet", description = "Numéro National de Thèse ou numéro de sujet", example = "2013MON30092") String nntOuNumsujet) {
         return new ResponseEntity<>(xslTransfo.transformXsl(dbRequest.findTefByNntOrNumsujet(nntOuNumsujet), "tef2rdf.xsl"), HttpStatus.OK);
     }
@@ -60,7 +60,7 @@ public class ExportController {
     @ApiResponse(responseCode = "400", description = "Le format du numéro national de thèse fourni est incorrect")
     @ApiResponse(responseCode = "200", description = "Opération terminée avec succès")
     @ApiResponse(responseCode = "500", description = "Service indisponible")
-    @GetMapping(value = "export/tefudoc/{nntOuNumsujet}", produces = "application/xml")
+    @GetMapping(value = "tefudoc/{nntOuNumsujet}", produces = "application/xml")
     public ResponseEntity exportTefudoc(@PathVariable @Parameter(name = "nntOuNumsujet", description = "Numéro National de Thèse ou numéro de sujet", example = "2013MON30092") String nntOuNumsujet) {
         return new ResponseEntity<>(xslTransfo.transformXsl(dbRequest.findTefByNntOrNumsujet(nntOuNumsujet), "tef2tefSansGestion.xsl"), HttpStatus.OK);
     }
@@ -71,7 +71,7 @@ public class ExportController {
     @ApiResponse(responseCode = "400", description = "Le format du numéro national de thèse fourni est incorrect")
     @ApiResponse(responseCode = "200", description = "Opération terminée avec succès")
     @ApiResponse(responseCode = "500", description = "Service indisponible")
-    @GetMapping(value = "export/bib/{nntOuNumsujet}")
+    @GetMapping(value = "bib/{nntOuNumsujet}")
     public ResponseEntity exportBib(@PathVariable @Parameter(name = "nntOuNumsujet", description = "Numéro National de Thèse ou numéro de sujet", example = "2013MON30092") String nntOuNumsujet, HttpServletResponse response) {
         return new ResponseEntity<>(bibRis.renvoyerFichier(bibRis.generateBibData(dbRequest.findTefByNntOrNumsujet(nntOuNumsujet), nntOuNumsujet), response, "resultat.bib"), HttpStatus.OK);
     }
@@ -82,7 +82,7 @@ public class ExportController {
     @ApiResponse(responseCode = "400", description = "Le format du numéro national de thèse fourni est incorrect")
     @ApiResponse(responseCode = "200", description = "Opération terminée avec succès")
     @ApiResponse(responseCode = "500", description = "Service indisponible")
-    @GetMapping(value = "export/ris/{nntOuNumsujet}")
+    @GetMapping(value = "ris/{nntOuNumsujet}")
     public ResponseEntity exportRis(@PathVariable @Parameter(name = "nntOuNumsujet", description = "Numéro National de Thèse ou numéro de sujet", example = "2013MON30092") String nntOuNumsujet, HttpServletResponse response) {
         return new ResponseEntity<>(bibRis.renvoyerFichier(bibRis.generateRisData(dbRequest.findTefByNntOrNumsujet(nntOuNumsujet), nntOuNumsujet), response, "resultat.ris"), HttpStatus.OK);
     }
