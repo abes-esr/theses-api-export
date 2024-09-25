@@ -7,6 +7,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
@@ -14,23 +15,43 @@ import javax.sql.DataSource;
 public class DbConfig {
 
     @Bean
-    @Primary
-    public DataSourceProperties dataSourceProperties() {
+    @ConfigurationProperties("spring.theses.datasource")
+    public DataSourceProperties dataSourceThesesProperties() {
         return new DataSourceProperties();
     }
 
-    // ci-dessous : obligation d'utiliser une OracleDataSource sinon impossible
-    // de caster le ResultSet Hikari en ResulSet Oracle dans le TheseRowMapper
-    // et donc impossible d'utiliser le getOpaque (spécifique à OracleResultSet)
-    // pour récuperer le XMLType
-
     @Bean
     @Primary
-    @ConfigurationProperties("spring.db.datasource")
-    public DataSource dataSourceLecture() {
+    public DataSource dataSourceTheses() {
 
-        return DataSourceBuilder.create().url(dataSourceProperties().getUrl())
-                .username(dataSourceProperties().getUsername()).password(dataSourceProperties().getPassword())
+        return DataSourceBuilder.create().url(dataSourceThesesProperties().getUrl())
+                .username(dataSourceThesesProperties().getUsername()).password(dataSourceThesesProperties().getPassword())
                 .type(OracleDataSource.class).build();
     }
+
+
+    @Bean
+    @ConfigurationProperties("spring.basexml.datasource")
+    public DataSourceProperties dataSourceBaseXmlProperties() {
+        return new DataSourceProperties();
+    }
+
+    @Bean
+    public DataSource dataSourceBaseXml() {
+
+        return DataSourceBuilder.create().url(dataSourceBaseXmlProperties().getUrl())
+                .username(dataSourceBaseXmlProperties().getUsername()).password(dataSourceBaseXmlProperties().getPassword())
+                .type(OracleDataSource.class).build();
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplateTheses() {
+        return new JdbcTemplate(dataSourceTheses());
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplateBaseXml() {
+        return new JdbcTemplate(dataSourceBaseXml());
+    }
+
 }
