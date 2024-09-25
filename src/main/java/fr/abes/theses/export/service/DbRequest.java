@@ -1,9 +1,6 @@
 package fr.abes.theses.export.service;
 
 import fr.abes.theses.export.model.Diagnostic;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -20,13 +17,10 @@ public class DbRequest {
 
     private final JdbcTemplate jdbcTemplateTheses;
     private final JdbcTemplate jdbcTemplateBaseXml;
-    private final TraitementParams traitementParams;
     public DbRequest(JdbcTemplate jdbcTemplateTheses,
-                     JdbcTemplate jdbcTemplateBaseXml,
-                     TraitementParams traitementParams) {
+                     JdbcTemplate jdbcTemplateBaseXml) {
         this.jdbcTemplateTheses = jdbcTemplateTheses;
         this.jdbcTemplateBaseXml = jdbcTemplateBaseXml;
-        this.traitementParams = traitementParams;
     }
 
     public String findTefByNntOrNumsujet (String nntOrNumsujet) {
@@ -64,7 +58,7 @@ public class DbRequest {
         ajouteAnneeDansRequete(sql, params, annee);
         ajouteOrdre(sql, sort);
 
-        List<Diagnostic> liste = jdbcTemplateBaseXml.query(sql.toString(), params.toArray(), (rs, rowNum) ->
+        return jdbcTemplateBaseXml.query(sql.toString(), params.toArray(), (rs, rowNum) ->
                 new Diagnostic(
                         rs.getInt("etat"),
                         rs.getString("type"),
@@ -79,8 +73,6 @@ public class DbRequest {
                         rs.getString("consigne")
                 )
         );
-
-        return liste;
     }
 
     private void ajouteParamIntegerDansRequete (StringBuilder sql, List<Object> paramsRequete, String nomParam, Optional<List<Integer>> params) {
