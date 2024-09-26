@@ -8,14 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1/tool/")
-public class ToolController {
+@RequestMapping("/api/v1/outils/")
+public class OutilsController {
 
     @Autowired
     DbRequest dbRequest;
