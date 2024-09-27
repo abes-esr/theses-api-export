@@ -24,7 +24,7 @@ public class OutilsController {
     public ResponseEntity algoTheses(
             @RequestParam @Parameter(name = "etat", description = "Code du problème, multivalué possible", example = "52") Optional<List<Integer>> etat,
             @RequestParam @Parameter(name = "type", description = "Type d'intervention, multivalué possible", example = "amelioration") Optional<List<String>> type,
-            @RequestParam @Parameter(name = "codeetab", description = "Code de l'établissement", example = "NICE") Optional<List<String>> codeetab,
+            @RequestParam @Parameter(name = "codeetab", description = "Code de l'établissement", example = "NICE") Optional<List<String>> codeEtab,
             @RequestParam @Parameter(name = "nnt", description = "Numéro national de thèse", example = "2020MONT1234") Optional<List<String>> nnt,
             @RequestParam @Parameter(name = "ppn", description = "Identifiant de la notice", example = "236863509") Optional<List<String>> ppn,
             @RequestParam @Parameter(name = "utilisateur", description = "Type d'utilisateur", example = "reseau") Optional<List<String>> utilisateur,
@@ -36,7 +36,7 @@ public class OutilsController {
         return new ResponseEntity<>(dbRequest.getDiagnosticAlgoTheses(
                 etat,
                 type,
-                codeetab,
+                codeEtab,
                 nnt,
                 ppn,
                 utilisateur,
