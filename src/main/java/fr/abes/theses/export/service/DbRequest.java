@@ -119,7 +119,7 @@ public class DbRequest {
 
     private void ajouteOrdre (StringBuilder sql, Optional<List<String>> sort) {
 
-        List<String> validColumns = Arrays.asList("etat", "type", "codeetab", "nnt", "ppn", "utilisateur", "rcr", "annee", "gravite", "libelle", "consigne");  // Ajouter toutes les colonnes valides
+        List<String> validColumns = Arrays.asList("etat", "type", "codeEtab", "nnt", "ppn", "utilisateur", "rcr", "annee", "gravite", "libelle", "consigne");  // Ajouter toutes les colonnes valides
 
         if (sort.isPresent() && !sort.get().isEmpty()) {
 
