@@ -64,6 +64,8 @@ public class BibRis {
                         "/mets:mets/mets:amdSec[1]/mets:techMD[1]/mets:mdWrap[1]/mets:xmlData[1]/tef:thesisAdmin[1]/tef:auteur[1]/tef:nomDeNaissance[1]");
                 String auteurNom = getValeur(docTef,
                         "/mets:mets/mets:amdSec[1]/mets:techMD[1]/mets:mdWrap[1]/mets:xmlData[1]/tef:thesisAdmin[1]/tef:auteur[1]/tef:nom[1]");
+                String doi = getValeur(docTef,
+                        "/mets:mets/mets:amdSec[1]/mets:techMD[1]/mets:mdWrap[1]/mets:xmlData[1]/tef:thesisAdmin[1]/dc:identifier[@xsi:type='tef:DOI']");
                 String auTef = "";
 
                 if (!auteurNomNaissance.isEmpty() && !auteurNomNaissance.equalsIgnoreCase(auteurNom)) {
@@ -170,6 +172,11 @@ public class BibRis {
                 risOutput.append("A3  - " + a3Tef);
                 risOutput.append("\n");
 
+                if (!doi.isEmpty()) {
+                    risOutput.append("DO  - " + doi);
+                    risOutput.append("\n");
+                }
+
                 risOutput.append("PY  - " + pyTef.substring(0, 4));
                 risOutput.append("\n");
 
@@ -228,6 +235,8 @@ public class BibRis {
                         "/mets:mets/mets:amdSec[1]/mets:techMD[1]/mets:mdWrap[1]/mets:xmlData[1]/tef:thesisAdmin[1]/tef:auteur[1]/tef:nom[1]");
                 String auteurNomNaissance = getValeur(docTef,
                         "/mets:mets/mets:amdSec[1]/mets:techMD[1]/mets:mdWrap[1]/mets:xmlData[1]/tef:thesisAdmin[1]/tef:auteur[1]/tef:nomDeNaissance[1]");
+                String doi = getValeur(docTef,
+                        "/mets:mets/mets:amdSec[1]/mets:techMD[1]/mets:mdWrap[1]/mets:xmlData[1]/tef:thesisAdmin[1]/dc:identifier[@xsi:type='tef:DOI']");
                 String authorTef = "";
 
                 if (!auteurNomNaissance.isEmpty() && !auteurNomNaissance.equalsIgnoreCase(auteurNom)) {
@@ -344,6 +353,11 @@ public class BibRis {
 
                 bibOutput.append("year = \"" + yearTef + "\",");
                 bibOutput.append("\n");
+
+                if (!doi.isEmpty()) {
+                    bibOutput.append("doi = {" + doi + "},");
+                    bibOutput.append("\n");
+                }
 
                 if (!pagesTef.isEmpty()) {
                     bibOutput.append("pages = \"" + pagesTef + "\",");
