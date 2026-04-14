@@ -15,24 +15,24 @@ URL publique : [https://theses.fr/api/v1/export/](https://theses.fr/api/v1/expor
 
 L'application complète peut être déployée via Docker à l'aide du dépôt https://github.com/abes-esr/theses-docker
 
-## Données exposées par l'API : 
+## Données exposées par l'API
 
 Les métadonnées descriptives de la thèses (formats XML et RDF) comprennent :
 
-### Un bloc décrivant la notice :
+### Un bloc décrivant la notice
 
 * URL de la notice
 * Identifiants pérenne du créateur de la notice (l’Abes)
 * Date de création et de dernière mise à jour de la notice dans theses.fr (en UTC)
 
  
-### Un bloc décrivant :
+### Un bloc décrivant
 
 * La thèse : titre, année de soutenance ou d’inscription en doctorat, type de document, langue, résumés, mots-clés, classification Dewey, URL d’accès au texte intégral
 * Les personnes liées à la thèse ; auteur (nom, prénom et identifiant), directeur de thèse (nom, prénom et identifiant), membres du jury
 * Les structures liées à la thèse : établissement de soutenance (nom et identifiant), école doctorale (nom et identifiant), partenaires de recherche (nom et identifiant)
 
-### Les références bibliographiques (formats RIS et BibTeX) comprennent :
+### Les références bibliographiques (formats RIS et BibTeX) comprennent
 * Le titre
 * L’auteur
 * Le directeur de thèse
@@ -53,4 +53,11 @@ Il y a 3 API pour Theses.fr :
 L'API présente est écrite en Java 17, à l'aide du framework Spring Boot 2.
 
 Elle est déployée automatiquement dans le SI de l'Abes sous forme d'un container docker, à l'aide de la chaine CI/CD Github.
+
+## Documentation utilisateur
+
+La documentation utilisateur est fournie au standard OpenAPI : https://theses.fr/api/v1/export/openapi.yaml.
+
+Un formulaire pour visualiser cette documentation est disponible sur https://www.data.gouv.fr/dataservices/api-export-des-donnees-de-theses-fr.
+
 
