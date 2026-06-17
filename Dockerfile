@@ -33,4 +33,4 @@ COPY --from=build-image /build/target/*.jar /app/theses-api-export.jar
 # Téléchargement d'une version fixe de l'agent OpenTelemetry pour la reproductibilité
 ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.3.0/opentelemetry-javaagent.jar /app/opentelemetry.jar
 
-ENTRYPOINT ["java", "-javaagent:/app/opentelemetry.jar", "-jar", "/app/theses-api-export.jar"]
+ENTRYPOINT exec java $JAVA_OPTS -javaagent:/app/opentelemetry.jar -jar /app/theses-api-export.jar
