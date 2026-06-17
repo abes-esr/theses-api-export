@@ -1,15 +1,7 @@
 ###
 # Image pour la compilation
-FROM maven:3-eclipse-temurin-17 as build-image
+FROM maven:3-eclipse-temurin-17 AS build-image
 WORKDIR /build/
-# Installation et configuration de la locale FR
-RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install locales
-RUN sed -i '/fr_FR.UTF-8/s/^# //g' /etc/locale.gen && \
-    locale-gen
-ENV LANG fr_FR.UTF-8
-ENV LANGUAGE fr_FR:fr
-ENV LC_ALL fr_FR.UTF-8
-
 
 # On lance la compilation Java
 # On débute par une mise en cache docker des dépendances Java
@@ -19,16 +11,18 @@ RUN mvn verify --fail-never
 # et la compilation du code Java
 COPY ./src/   /build/src/
 RUN mvn --batch-mode -e \
-        -Dmaven.test.skip=false \
-        -Duser.timezone=Europe/Paris \
-        -Duser.language=fr \
-        package
-
+    -Dmaven.test.skip=false \
+    -Duser.timezone=Europe/Paris \
+    -Duser.language=fr \
+    package
 
 ###
 # Image pour le module theses-export
-
-FROM eclipse-temurin:17-jre as api-export-image
+FROM eclipse-temurin:17-jre AS api-export-image
 WORKDIR /app/
 COPY --from=build-image /build/target/*.jar /app/theses-api-export.jar
-ENTRYPOINT exec java $JAVA_OPTS -jar /app/theses-api-export.jar
+
+# Téléchargement d'une version fixe de l'agent OpenTelemetry pour la reproductibilité
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.3.0/opentelemetry-javaagent.jar /app/opentelemetry.jar
+
+ENTRYPOINT ["java", "-javaagent:/app/opentelemetry.jar", "-jar", "/app/theses-api-recherche.jar"]
